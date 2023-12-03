@@ -6,10 +6,16 @@ import java.util.StringTokenizer;
 
 public class Main {
     private static final String DICTIONARY = "dictionaries/large";
+    private static final String CONSTITUTION = "texts/constitution.txt";
+    private static final String LALALAND = "texts/lalaland.txt";
+    private static final String SHAKESPEARE = "texts/shakespeare.txt";
+
+
     private static double timeLoad = 0.0;
     private static double timeCheck = 0.0;
     private static final double timeSize = 0.0;
     private static double timeUnload = 0.0;
+
 
     static int misspellings = 0, words = 0;
     static long startTime, endTime;
@@ -25,9 +31,9 @@ public class Main {
                 int choice = input.nextInt();
                 if (choice >= 1 && choice < 4) {
                     switch (choice) {
-                        case 1 -> text = "texts/constitution.txt";
-                        case 2 -> text = "texts/lalaland.txt";
-                        case 3 -> text = "texts/shakespeare.txt";
+                        case 1 -> text = CONSTITUTION;
+                        case 2 -> text = LALALAND;
+                        case 3 -> text = SHAKESPEARE;
                     }
                     break;
                 } else {
