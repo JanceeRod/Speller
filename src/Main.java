@@ -1,19 +1,29 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Main extends Definitions {
     public static Scanner input = new Scanner(System.in);
     public static String textFile = "";
+    public static ArrayList<String> misspelledWords = new ArrayList<>();
 
     public static void main(String[] args) {
         startProgram();
 
-        process("load");
+        process("loadDictionary");
         openTextFile(textFile);
-        process("unload");
+
+        SortingAlgorithm.mergeSort(misspelledWords);
+        System.out.println("\nALL UNIQUE MISSPELLED WORDS (Sorted Alphabetically)\n");
+
+        for (String word : misspelledWords) {
+            System.out.println(word);
+        }
+
+        process("unloadDictionary");
 
         performanceAnalysis();
 
@@ -58,7 +68,7 @@ public class Main extends Definitions {
 
     public static void process(String operation) {
         switch (operation) {
-            case "load" -> {
+            case "loadDictionary" -> {
                 startTime = System.currentTimeMillis();
                 boolean loaded = Speller.load(dictionary);
                 endTime = System.currentTimeMillis();
@@ -70,7 +80,7 @@ public class Main extends Definitions {
                 timeLoad = (endTime - startTime) / 1000.0;
             }
 
-            case "unload" -> {
+            case "unloadDictionary" -> {
                 startTime = System.currentTimeMillis();
                 boolean unloaded = Speller.unload();
                 endTime = System.currentTimeMillis();
@@ -86,7 +96,6 @@ public class Main extends Definitions {
 
     public static void openTextFile(String text) {
         try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
-            System.out.println("\nMISSPELLED WORDS\n");
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -102,8 +111,8 @@ public class Main extends Definitions {
                         endTime = System.currentTimeMillis();
                         timeCheck += (endTime - startTime) / 1000.0;
 
-                        if (misspelled) {
-                            System.out.println(word);
+                        if (misspelled && !misspelledWords.contains(word)) {
+                            misspelledWords.add(word);
                             misspellings++;
                         }
                     }
