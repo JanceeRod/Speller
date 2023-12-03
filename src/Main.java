@@ -30,7 +30,6 @@ public class Main extends Definitions {
                 "   [3] Shakespeare's work\n\n" +
                 "   [4] Exit Program\n\n" +
                 "Enter your choice: ");
-
         handleUserInput();
     }
 
@@ -53,7 +52,6 @@ public class Main extends Definitions {
                 System.out.println("Invalid Input. Expected Input: A number within 1 to 4");
                 input.next();
             }
-
             System.out.println("\nEnter your choice: ");
         }
     }
@@ -113,7 +111,6 @@ public class Main extends Definitions {
                 }
             }
         }
-
         catch (IOException e) {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
