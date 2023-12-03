@@ -10,17 +10,18 @@ public class Main {
     private static final String LALALAND = "texts/lalaland.txt";
     private static final String SHAKESPEARE = "texts/shakespeare.txt";
 
-
     private static double timeLoad = 0.0;
     private static double timeCheck = 0.0;
     private static final double timeSize = 0.0;
     private static double timeUnload = 0.0;
 
-
     static int misspellings = 0, words = 0;
     static long startTime, endTime;
 
+    static String dictionary = DICTIONARY;
+
     public static void main(String[] args) {
+
         Scanner input = new Scanner(System.in);
 
         printOptions();
@@ -47,36 +48,27 @@ public class Main {
             System.out.println("\nEnter your choice: ");
         }
 
-
-        String dictionary = DICTIONARY;
-
-        startTime = System.currentTimeMillis();
-        boolean loaded = Speller.load(dictionary);
-        endTime = System.currentTimeMillis();
-        if (!loaded) {
-            System.out.println("Could not load " + dictionary + ".");
-            System.exit(1);
-        }
-        timeLoad = (endTime - startTime) / 1000.0;
-
-        openFile(text);
-
-        startTime = System.currentTimeMillis();
-        boolean unloaded = Speller.unload();
-        endTime = System.currentTimeMillis();
-
-        if (!unloaded) {
-            System.out.println("Could not unload " + dictionary + ".");
-            System.exit(1);
-        }
-
-        timeUnload = (endTime - startTime) / 1000.0;
+        processLoad();
+        openTextFile(text);
+        processUnload();
         performanceAnalysis();
         misspellings = 0;
         words = 0;
     }
 
-    public static void openFile(String text) {
+
+
+    public static void printOptions() {
+        System.out.print(
+                "--- SPELL CHECKER ---\n\n" +
+                "Please pick the text file you want to spell check\n" +
+                "   [1] US Constitution\n" +
+                "   [2] Lalaland Manuscript\n" +
+                "   [3] Shakespeare's work\n\n" +
+                "Enter your choice: ");
+    }
+
+    public static void openTextFile(String text) {
         try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
             System.out.println("\nMISSPELLED WORDS\n");
             String line;
@@ -112,6 +104,30 @@ public class Main {
         }
     }
 
+    public static void processLoad() {
+        startTime = System.currentTimeMillis();
+        boolean loaded = Speller.load(dictionary);
+        endTime = System.currentTimeMillis();
+
+        if (!loaded) {
+            System.out.println("Could not load " + dictionary + ".");
+            System.exit(1);
+        }
+        timeLoad = (endTime - startTime) / 1000.0;
+    }
+
+    public static void processUnload() {
+        startTime = System.currentTimeMillis();
+        boolean unloaded = Speller.unload();
+        endTime = System.currentTimeMillis();
+
+        if (!unloaded) {
+            System.out.println("Could not unload " + dictionary + ".");
+            System.exit(1);
+        }
+        timeUnload = (endTime - startTime) / 1000.0;
+    }
+
     public static void performanceAnalysis() {
         System.out.println("\nWORDS MISSPELLED:     " + misspellings);
         System.out.println("WORDS IN DICTIONARY:  " + Speller.size());
@@ -121,16 +137,6 @@ public class Main {
         System.out.println("TIME IN size:         " + timeSize);
         System.out.println("TIME IN unload:       " + timeUnload);
         System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSize + timeUnload) + "\n");
-    }
-
-    public static void printOptions() {
-        System.out.print(
-                "--- SPELL CHECKER ---\n\n" +
-                "Please pick the text file you want to spell check\n" +
-                "   [1] US Constitution\n" +
-                "   [2] Lalaland Manuscript\n" +
-                "   [3] Shakespeare's work\n\n" +
-                "Enter your choice: ");
     }
 }
 
