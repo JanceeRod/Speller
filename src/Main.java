@@ -32,10 +32,12 @@ public class Main extends Definitions {
             System.out.println("\nEnter your choice: ");
         }
 
-        processLoad();
+        process("load");
         openTextFile(text);
-        processUnload();
+        process("unload");
+
         performanceAnalysis();
+
         misspellings = 0;
         words = 0;
     }
@@ -48,6 +50,34 @@ public class Main extends Definitions {
                 "   [2] Lalaland Manuscript\n" +
                 "   [3] Shakespeare's work\n\n" +
                 "Enter your choice: ");
+    }
+
+    public static void process(String operation) {
+        switch (operation) {
+            case "load" -> {
+                startTime = System.currentTimeMillis();
+                boolean loaded = Speller.load(dictionary);
+                endTime = System.currentTimeMillis();
+
+                if (!loaded) {
+                    System.out.println("Could not load " + dictionary + ".");
+                    System.exit(1);
+                }
+                timeLoad = (endTime - startTime) / 1000.0;
+            }
+
+            case "unload" -> {
+                startTime = System.currentTimeMillis();
+                boolean unloaded = Speller.unload();
+                endTime = System.currentTimeMillis();
+
+                if (!unloaded) {
+                    System.out.println("Could not unload " + dictionary + ".");
+                    System.exit(1);
+                }
+                timeUnload = (endTime - startTime) / 1000.0;
+            }
+        }
     }
 
     public static void openTextFile(String text) {
@@ -84,30 +114,6 @@ public class Main extends Definitions {
             Speller.unload();
             System.exit(1);
         }
-    }
-
-    public static void processLoad() {
-        startTime = System.currentTimeMillis();
-        boolean loaded = Speller.load(dictionary);
-        endTime = System.currentTimeMillis();
-
-        if (!loaded) {
-            System.out.println("Could not load " + dictionary + ".");
-            System.exit(1);
-        }
-        timeLoad = (endTime - startTime) / 1000.0;
-    }
-
-    public static void processUnload() {
-        startTime = System.currentTimeMillis();
-        boolean unloaded = Speller.unload();
-        endTime = System.currentTimeMillis();
-
-        if (!unloaded) {
-            System.out.println("Could not unload " + dictionary + ".");
-            System.exit(1);
-        }
-        timeUnload = (endTime - startTime) / 1000.0;
     }
 
     public static void performanceAnalysis() {
