@@ -14,13 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        System.out.print(
-                "--- SPELL CHECKER ---\n\n" +
-                        "Please pick the text file you want to spell check\n" +
-                        "   [1] US Constitution\n" +
-                        "   [2] Lalaland Manuscript\n" +
-                        "   [3] Shakespeare's work\n\n" +
-                        "Enter your choice: ");
+        printOptions();
 
         String text = "";
         while (true) {
@@ -118,4 +112,16 @@ public class Main {
 
         timeUnload = (endTime - startTime) / 1000.0;
     }
+
+    public static void printOptions() {
+        System.out.print(
+                "--- SPELL CHECKER ---\n\n" +
+                "Please pick the text file you want to spell check\n" +
+                "   [1] US Constitution\n" +
+                "   [2] Lalaland Manuscript\n" +
+                "   [3] Shakespeare's work\n\n" +
+                "Enter your choice: ");
+    }
 }
+
+
