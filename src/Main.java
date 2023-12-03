@@ -11,6 +11,8 @@ public class Main {
     private static final double timeSize = 0.0;
     private static double timeUnload = 0.0;
 
+    static int misspellings = 0, words = 0;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -56,8 +58,6 @@ public class Main {
         // attempt to open text
         try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
             System.out.println("\nMISSPELLED WORDS\n");
-
-            int misspellings = 0, words = 0;
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -81,19 +81,6 @@ public class Main {
                     }
                 }
             }
-
-            reader.close();
-
-            // statzzz
-            System.out.println("\nWORDS MISSPELLED:     " + misspellings);
-            System.out.println("WORDS IN DICTIONARY:  " + Speller.size());
-            System.out.println("WORDS IN TEXT:        " + words);
-            System.out.println("TIME IN load:         " + timeLoad);
-            System.out.println("TIME IN check:        " + timeCheck);
-            System.out.println("TIME IN size:         " + timeSize);
-            System.out.println("TIME IN unload:       " + timeUnload);
-            System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSize + timeUnload) + "\n");
-
         } catch (IOException e) {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
@@ -111,6 +98,20 @@ public class Main {
         }
 
         timeUnload = (endTime - startTime) / 1000.0;
+        performanceAnalysis();
+        misspellings = 0;
+        words = 0;
+    }
+
+    public static void performanceAnalysis() {
+        System.out.println("\nWORDS MISSPELLED:     " + misspellings);
+        System.out.println("WORDS IN DICTIONARY:  " + Speller.size());
+        System.out.println("WORDS IN TEXT:        " + words);
+        System.out.println("TIME IN load:         " + timeLoad);
+        System.out.println("TIME IN check:        " + timeCheck);
+        System.out.println("TIME IN size:         " + timeSize);
+        System.out.println("TIME IN unload:       " + timeUnload);
+        System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSize + timeUnload) + "\n");
     }
 
     public static void printOptions() {
