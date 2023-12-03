@@ -100,7 +100,6 @@ public class Main extends Definitions {
                         startTime = System.currentTimeMillis();
                         boolean misspelled = !Speller.check(word);
                         endTime = System.currentTimeMillis();
-
                         timeCheck += (endTime - startTime) / 1000.0;
 
                         if (misspelled) {

@@ -1,4 +1,8 @@
+import java.math.BigInteger;
+
 public class Definitions {
+    public static final int MAX_WORDS = 150000;
+
     public static final String DICTIONARY = "dictionaries/large";
     public static final String CONSTITUTION = "texts/constitution.txt";
     public static final String LALALAND = "texts/lalaland.txt";
