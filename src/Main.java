@@ -13,10 +13,10 @@ public class Main extends Definitions {
     public static void main(String[] args) {
         startProgram();
 
-        process("loadDictionary");
+        process("LOAD DICTIONARY");
         openTextFile(textFile);
-        process("sort");
-        process("unloadDictionary");
+        process("SORT");
+        process("UNLOAD DICTIONARY");
 
         performanceAnalysis();
 
@@ -61,7 +61,7 @@ public class Main extends Definitions {
 
     public static void process(String operation) {
         switch (operation) {
-            case "sort" -> {
+            case "SORT" -> {
                 startTime = System.currentTimeMillis();
                 SortingAlgorithm.mergeSort(misspelledWords);
                 endTime = System.currentTimeMillis();
@@ -74,7 +74,7 @@ public class Main extends Definitions {
                 timeSort = (endTime - startTime) / 1000.0;
             }
 
-            case "loadDictionary" -> {
+            case "LOAD DICTIONARY" -> {
                 startTime = System.currentTimeMillis();
                 boolean loaded = Speller.load(dictionary);
                 endTime = System.currentTimeMillis();
@@ -86,7 +86,7 @@ public class Main extends Definitions {
                 timeLoad = (endTime - startTime) / 1000.0;
             }
 
-            case "unloadDictionary" -> {
+            case "UNLOAD DICTIONARY" -> {
                 startTime = System.currentTimeMillis();
                 boolean unloaded = Speller.unload();
                 endTime = System.currentTimeMillis();
