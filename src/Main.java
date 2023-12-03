@@ -71,7 +71,6 @@ public class Main {
     }
 
     public static void openFile(String text) {
-        // attempt to open text
         try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
             System.out.println("\nMISSPELLED WORDS\n");
             String line;
