@@ -12,6 +12,7 @@ public class Main {
     private static double timeUnload = 0.0;
 
     static int misspellings = 0, words = 0;
+    static long startTime, endTime;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -23,7 +24,6 @@ public class Main {
             if (input.hasNextInt()) {
                 int choice = input.nextInt();
                 if (choice >= 1 && choice < 4) {
-                    System.out.println("yey");
                     switch (choice) {
                         case 1 -> text = "texts/constitution.txt";
                         case 2 -> text = "texts/lalaland.txt";
@@ -41,20 +41,36 @@ public class Main {
             System.out.println("\nEnter your choice: ");
         }
 
-        long startTime, endTime;
+
         String dictionary = DICTIONARY;
 
         startTime = System.currentTimeMillis();
         boolean loaded = Speller.load(dictionary);
         endTime = System.currentTimeMillis();
-
         if (!loaded) {
             System.out.println("Could not load " + dictionary + ".");
             System.exit(1);
         }
-
         timeLoad = (endTime - startTime) / 1000.0;
 
+        openFile(text);
+
+        startTime = System.currentTimeMillis();
+        boolean unloaded = Speller.unload();
+        endTime = System.currentTimeMillis();
+
+        if (!unloaded) {
+            System.out.println("Could not unload " + dictionary + ".");
+            System.exit(1);
+        }
+
+        timeUnload = (endTime - startTime) / 1000.0;
+        performanceAnalysis();
+        misspellings = 0;
+        words = 0;
+    }
+
+    public static void openFile(String text) {
         // attempt to open text
         try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
             System.out.println("\nMISSPELLED WORDS\n");
@@ -81,26 +97,14 @@ public class Main {
                     }
                 }
             }
-        } catch (IOException e) {
+        }
+
+        catch (IOException e) {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
             Speller.unload();
             System.exit(1);
         }
-
-        startTime = System.currentTimeMillis();
-        boolean unloaded = Speller.unload();
-        endTime = System.currentTimeMillis();
-
-        if (!unloaded) {
-            System.out.println("Could not unload " + dictionary + ".");
-            System.exit(1);
-        }
-
-        timeUnload = (endTime - startTime) / 1000.0;
-        performanceAnalysis();
-        misspellings = 0;
-        words = 0;
     }
 
     public static void performanceAnalysis() {
