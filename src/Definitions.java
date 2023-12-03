@@ -11,6 +11,7 @@ public class Definitions {
     public static double timeCheck = 0.0;
     public static final double timeSize = 0.0;
     public static double timeUnload = 0.0;
+    public static double timeSort = 0.0;
 
 
     static int misspellings = 0, words = 0;

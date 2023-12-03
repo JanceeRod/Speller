@@ -15,14 +15,7 @@ public class Main extends Definitions {
 
         process("loadDictionary");
         openTextFile(textFile);
-
-        SortingAlgorithm.mergeSort(misspelledWords);
-        System.out.println("\nALL UNIQUE MISSPELLED WORDS (Sorted Alphabetically)\n");
-
-        for (String word : misspelledWords) {
-            System.out.println(word);
-        }
-
+        process("sort");
         process("unloadDictionary");
 
         performanceAnalysis();
@@ -68,6 +61,19 @@ public class Main extends Definitions {
 
     public static void process(String operation) {
         switch (operation) {
+            case "sort" -> {
+                startTime = System.currentTimeMillis();
+                SortingAlgorithm.mergeSort(misspelledWords);
+                endTime = System.currentTimeMillis();
+
+                System.out.println("\nALL UNIQUE MISSPELLED WORDS (Sorted Alphabetically)\n");
+                for (String word : misspelledWords) {
+                    System.out.println(word);
+                }
+
+                timeSort = (endTime - startTime) / 1000.0;
+            }
+
             case "loadDictionary" -> {
                 startTime = System.currentTimeMillis();
                 boolean loaded = Speller.load(dictionary);
@@ -133,9 +139,10 @@ public class Main extends Definitions {
         System.out.println("WORDS IN TEXT:        " + words);
         System.out.println("TIME IN load:         " + timeLoad);
         System.out.println("TIME IN check:        " + timeCheck);
+        System.out.println("TIME IN sort:         " + timeSort);
         System.out.println("TIME IN size:         " + timeSize);
         System.out.println("TIME IN unload:       " + timeUnload);
-        System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSize + timeUnload) + "\n");
+        System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSort + timeSize + timeUnload) + "\n");
     }
 }
 
