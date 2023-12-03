@@ -4,24 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Main {
-    private static final String DICTIONARY = "dictionaries/large";
-    private static final String CONSTITUTION = "texts/constitution.txt";
-    private static final String LALALAND = "texts/lalaland.txt";
-    private static final String SHAKESPEARE = "texts/shakespeare.txt";
-
-    private static double timeLoad = 0.0;
-    private static double timeCheck = 0.0;
-    private static final double timeSize = 0.0;
-    private static double timeUnload = 0.0;
-
-    static int misspellings = 0, words = 0;
-    static long startTime, endTime;
-
-    static String dictionary = DICTIONARY;
-
+public class Main extends Definitions {
     public static void main(String[] args) {
-
         Scanner input = new Scanner(System.in);
 
         printOptions();
@@ -55,8 +39,6 @@ public class Main {
         misspellings = 0;
         words = 0;
     }
-
-
 
     public static void printOptions() {
         System.out.print(
