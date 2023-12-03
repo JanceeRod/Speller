@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class Speller {
+public class Main {
     private static final String DICTIONARY = "dictionaries/large";
 
     // time trackers
