@@ -6,20 +6,21 @@ import java.util.StringTokenizer;
 
 public class Main {
     private static final String DICTIONARY = "dictionaries/large";
-
-    // time trackers
-    private static double timeLoad = 0.0, timeCheck = 0.0, timeSize = 0.0, timeUnload = 0.0;
+    private static double timeLoad = 0.0;
+    private static double timeCheck = 0.0;
+    private static final double timeSize = 0.0;
+    private static double timeUnload = 0.0;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
         System.out.print(
                 "--- SPELL CHECKER ---\n\n" +
-                "Please pick the text file you want to spell check\n" +
-                "   [1] US Constitution\n" +
-                "   [2] Lalaland Manuscript\n" +
-                "   [3] Shakespeare's work\n\n" +
-                "Enter your choice: ");
+                        "Please pick the text file you want to spell check\n" +
+                        "   [1] US Constitution\n" +
+                        "   [2] Lalaland Manuscript\n" +
+                        "   [3] Shakespeare's work\n\n" +
+                        "Enter your choice: ");
 
         String text = "";
         while (true) {
@@ -28,20 +29,15 @@ public class Main {
                 if (choice >= 1 && choice < 4) {
                     System.out.println("yey");
                     switch (choice) {
-                        case 1: text = "texts/constitution.txt";
-                                break;
-                        case 2: text = "texts/lalaland.txt";
-                                break;
-                        case 3: text = "texts/shakespeare.txt";
-                                break;
+                        case 1 -> text = "texts/constitution.txt";
+                        case 2 -> text = "texts/lalaland.txt";
+                        case 3 -> text = "texts/shakespeare.txt";
                     }
                     break;
-                }
-                else {
+                } else {
                     System.out.println("Invalid. Expected input: A number within 1 to 3.");
                 }
-            }
-            else {
+            } else {
                 System.out.println("Invalid Input. Expected Input: A number within 1 to 3");
                 input.next();
             }
@@ -53,7 +49,7 @@ public class Main {
         String dictionary = DICTIONARY;
 
         startTime = System.currentTimeMillis();
-        boolean loaded = load(dictionary);
+        boolean loaded = Speller.load(dictionary);
         endTime = System.currentTimeMillis();
 
         if (!loaded) {
@@ -79,7 +75,7 @@ public class Main {
                         words++;
 
                         startTime = System.currentTimeMillis();
-                        boolean misspelled = !check(word);
+                        boolean misspelled = !Speller.check(word);
                         endTime = System.currentTimeMillis();
 
                         timeCheck += (endTime - startTime) / 1000.0;
@@ -96,7 +92,7 @@ public class Main {
 
             // statzzz
             System.out.println("\nWORDS MISSPELLED:     " + misspellings);
-            System.out.println("WORDS IN DICTIONARY:  " + size());
+            System.out.println("WORDS IN DICTIONARY:  " + Speller.size());
             System.out.println("WORDS IN TEXT:        " + words);
             System.out.println("TIME IN load:         " + timeLoad);
             System.out.println("TIME IN check:        " + timeCheck);
@@ -107,12 +103,12 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
-            unload();
+            Speller.unload();
             System.exit(1);
         }
 
         startTime = System.currentTimeMillis();
-        boolean unloaded = unload();
+        boolean unloaded = Speller.unload();
         endTime = System.currentTimeMillis();
 
         if (!unloaded) {
@@ -121,81 +117,5 @@ public class Main {
         }
 
         timeUnload = (endTime - startTime) / 1000.0;
-    }
-
-//
-//
-//    CORE METHODS
-//
-//
-
-    private static boolean check(String word) {
-        int hashed = hash(word);
-
-        Node checker = table[hashed];
-        while (checker != null) {
-            if (checker.word.equalsIgnoreCase(word)) {
-                return true;
-            }
-            checker = checker.next;
-        }
-
-        return false;
-    }
-
-    private static final int N = 78;
-    private static int hash(String word) {
-        int index = 0;
-
-        for (int i = 0; i < 4; i++) {
-            if (i >= word.length()) {
-                break;
-            }
-
-            index <<= 8;
-            index += Character.toLowerCase(word.charAt(i));
-        }
-
-        return index % N;
-    }
-
-    // hashmap / hashtable
-    private static int counter = 0;
-    private static Node[] table = new Node[N];
-    private static boolean load(String dictionary) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(dictionary))) {
-            String word;
-            while ((word = reader.readLine()) != null) {
-                Node newWord = new Node(word);
-                int index = hash(word);
-
-                newWord.next = table[index];
-                table[index] = newWord;
-                counter++;
-            }
-
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    private static int size() {
-        return (counter > 0) ? counter : 0;
-    }
-
-    private static boolean unload() {
-        for (int i = 0; i < N; i++) {
-            Node freeThis = table[i];
-
-            while (freeThis != null) {
-                Node temp = freeThis;
-
-                freeThis = freeThis.next;
-                temp = null;
-            }
-        }
-        return true;
     }
 }
