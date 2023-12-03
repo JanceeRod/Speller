@@ -19,9 +19,6 @@ public class Main extends Definitions {
         process("UNLOAD DICTIONARY");
 
         performanceAnalysis();
-
-        misspellings = 0;
-        words = 0;
     }
 
     public static void startProgram() {
@@ -134,15 +131,16 @@ public class Main extends Definitions {
     }
 
     public static void performanceAnalysis() {
-        System.out.println("\nWORDS MISSPELLED:     " + misspellings);
-        System.out.println("WORDS IN DICTIONARY:  " + Speller.size());
-        System.out.println("WORDS IN TEXT:        " + words);
-        System.out.println("TIME IN load:         " + timeLoad);
-        System.out.println("TIME IN check:        " + timeCheck);
-        System.out.println("TIME IN sort:         " + timeSort);
-        System.out.println("TIME IN size:         " + timeSize);
-        System.out.println("TIME IN unload:       " + timeUnload);
-        System.out.println("TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSort + timeSize + timeUnload) + "\n");
+        System.out.print(
+                "\nWORDS MISSPELLED:     " + misspellings + "\n" +
+                "WORDS IN DICTIONARY:  " + Speller.size() + "\n" +
+                "WORDS IN TEXT:        " + words + "\n" +
+                "TIME IN load:         " + timeLoad + "\n" +
+                "TIME IN check:        " + timeCheck + "\n" +
+                "TIME IN sort:         " + timeSort + "\n" +
+                "TIME IN size:         " + timeSize + "\n" +
+                "TIME IN unload:       " + timeUnload + "\n" +
+                "TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSort + timeSize + timeUnload) + "\n\n");
     }
 }
 
