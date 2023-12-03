@@ -1,6 +1,6 @@
 public class Definitions {
     public static final String DICTIONARY = "dictionaries/words_alpha.txt";
-    public static final String CONSTITUTION = "texts/constitution.txt";
+    public static final String US_CONSTITUTION = "texts/constitution.txt";
     public static final String LALALAND = "texts/lalaland.txt";
     public static final String SHAKESPEARE = "texts/shakespeare.txt";
 

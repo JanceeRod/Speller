@@ -39,7 +39,7 @@ public class Main extends Definitions {
                 int choice = input.nextInt();
                 if (choice >= 1 && choice < 5) {
                     switch (choice) {
-                        case 1 -> textFile = CONSTITUTION;
+                        case 1 -> textFile = US_CONSTITUTION;
                         case 2 -> textFile = LALALAND;
                         case 3 -> textFile = SHAKESPEARE;
                         case 4 -> System.exit(0);
