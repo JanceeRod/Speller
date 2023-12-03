@@ -33,7 +33,6 @@ public class Speller {
         return index % N;
     }
 
-    // hashmap / hashtable
     public static int counter = 0;
     public static Node[] table = new Node[N];
     public static boolean load(String dictionary) {

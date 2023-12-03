@@ -5,35 +5,14 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Main extends Definitions {
+    public static Scanner input = new Scanner(System.in);
+    public static String textFile = "";
+
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
-        printOptions();
-
-        String text = "";
-        while (true) {
-            if (input.hasNextInt()) {
-                int choice = input.nextInt();
-                if (choice >= 1 && choice < 4) {
-                    switch (choice) {
-                        case 1 -> text = CONSTITUTION;
-                        case 2 -> text = LALALAND;
-                        case 3 -> text = SHAKESPEARE;
-                    }
-                    break;
-                } else {
-                    System.out.println("Invalid. Expected input: A number within 1 to 3.");
-                }
-            } else {
-                System.out.println("Invalid Input. Expected Input: A number within 1 to 3");
-                input.next();
-            }
-
-            System.out.println("\nEnter your choice: ");
-        }
+        startProgram();
 
         process("load");
-        openTextFile(text);
+        openTextFile(textFile);
         process("unload");
 
         performanceAnalysis();
@@ -42,14 +21,41 @@ public class Main extends Definitions {
         words = 0;
     }
 
-    public static void printOptions() {
+    public static void startProgram() {
         System.out.print(
                 "--- SPELL CHECKER ---\n\n" +
                 "Please pick the text file you want to spell check\n" +
                 "   [1] US Constitution\n" +
                 "   [2] Lalaland Manuscript\n" +
                 "   [3] Shakespeare's work\n\n" +
+                "   [4] Exit Program\n\n" +
                 "Enter your choice: ");
+
+        handleUserInput();
+    }
+
+    public static void handleUserInput() {
+        while (true) {
+            if (input.hasNextInt()) {
+                int choice = input.nextInt();
+                if (choice >= 1 && choice < 5) {
+                    switch (choice) {
+                        case 1 -> textFile = CONSTITUTION;
+                        case 2 -> textFile = LALALAND;
+                        case 3 -> textFile = SHAKESPEARE;
+                        case 4 -> System.exit(0);
+                    }
+                    break;
+                } else {
+                    System.out.println("Invalid. Expected input: A number within 1 to 4.");
+                }
+            } else {
+                System.out.println("Invalid Input. Expected Input: A number within 1 to 4");
+                input.next();
+            }
+
+            System.out.println("\nEnter your choice: ");
+        }
     }
 
     public static void process(String operation) {
@@ -61,7 +67,7 @@ public class Main extends Definitions {
 
                 if (!loaded) {
                     System.out.println("Could not load " + dictionary + ".");
-                    System.exit(1);
+                    startProgram();
                 }
                 timeLoad = (endTime - startTime) / 1000.0;
             }
@@ -73,7 +79,7 @@ public class Main extends Definitions {
 
                 if (!unloaded) {
                     System.out.println("Could not unload " + dictionary + ".");
-                    System.exit(1);
+                    startProgram();
                 }
                 timeUnload = (endTime - startTime) / 1000.0;
             }
@@ -112,7 +118,7 @@ public class Main extends Definitions {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
             Speller.unload();
-            System.exit(1);
+            startProgram();
         }
     }
 
