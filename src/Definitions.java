@@ -3,6 +3,8 @@ public class Definitions {
     public static final String US_CONSTITUTION = "texts/constitution.txt";
     public static final String LALALAND = "texts/lalaland.txt";
     public static final String SHAKESPEARE = "texts/shakespeare.txt";
+    public static final String TEST = "texts/test.txt";
+
 
 
     public static double timeLoad = 0.0;

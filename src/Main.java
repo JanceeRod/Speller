@@ -27,8 +27,9 @@ public class Main extends Definitions {
                 "Please pick the text file you want to spell check\n" +
                 "   [1] US Constitution\n" +
                 "   [2] Lalaland Manuscript\n" +
-                "   [3] Shakespeare's work\n\n" +
-                "   [4] Exit Program\n\n" +
+                "   [3] Shakespeare's work\n" +
+                "   [4] Test File\n\n" +
+                "   [5] Exit Program\n\n" +
                 "Enter your choice: ");
         handleUserInput();
     }
@@ -37,12 +38,13 @@ public class Main extends Definitions {
         while (true) {
             if (input.hasNextInt()) {
                 int choice = input.nextInt();
-                if (choice >= 1 && choice < 5) {
+                if (choice >= 1 && choice < 6) {
                     switch (choice) {
                         case 1 -> textFile = US_CONSTITUTION;
                         case 2 -> textFile = LALALAND;
                         case 3 -> textFile = SHAKESPEARE;
-                        case 4 -> System.exit(0);
+                        case 4 -> textFile = TEST;
+                        case 5 -> System.exit(0);
                     }
                     break;
                 } else {
