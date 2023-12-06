@@ -163,6 +163,7 @@ public class Main extends Definitions {
         while (true) {
             if (input.hasNextInt()) {
                 int nextDo = input.nextInt();
+                input.nextLine();
                 if (nextDo >= 1 && nextDo < 5) {
                     switch (nextDo) {
                         case 1 -> programFlow();
@@ -179,7 +180,21 @@ public class Main extends Definitions {
     }
 
     public static void userCorrection() {
-        System.out.println("hey");
+        for (String wrongWord: misspelledWords) {
+            System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
+            System.out.print("   Enter correct spelling: ");
+            while (true) {
+                if (input.hasNextLine()) {
+                    String correctWord = input.nextLine();
+                    if (!correctWord.isEmpty()) {
+                        System.out.println("   test " + correctWord);
+                        break;
+                    } else {
+                        System.out.println("Please enter a valid spelling.");
+                    }
+                }
+            }
+        }
     }
 }
 
