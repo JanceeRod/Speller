@@ -221,11 +221,11 @@ public class Main extends Definitions {
         System.out.print("   Enter correct spelling: ");
         while (true) {
             if (input.hasNextLine()) {
-                String correctWord = input.nextLine();
-                if (!correctWord.isEmpty()) {
+                String correctWord = input.nextLine().trim();
+                if (correctWord.matches("[a-zA-Z]+")) {
                     return correctWord;
                 } else {
-                    System.out.println("Please enter a valid spelling.");
+                    System.out.println("Please enter a valid spelling containing only letters.");
                 }
             }
         }
