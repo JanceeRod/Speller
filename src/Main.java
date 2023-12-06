@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -86,7 +88,7 @@ public class Main extends Definitions {
 
                 if (!loaded) {
                     System.out.println("Could not load " + dictionary + ".");
-                    startProgram();
+                    programFlow();
                 }
                 timeLoad = (endTime - startTime) / 1000.0;
             }
@@ -98,7 +100,7 @@ public class Main extends Definitions {
 
                 if (!unloaded) {
                     System.out.println("Could not unload " + dictionary + ".");
-                    startProgram();
+                    programFlow();
                 }
                 timeUnload = (endTime - startTime) / 1000.0;
             }
@@ -134,7 +136,7 @@ public class Main extends Definitions {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
             Speller.unload();
-            startProgram();
+            programFlow();
         }
     }
 
@@ -180,18 +182,50 @@ public class Main extends Definitions {
     }
 
     public static void userCorrection() {
-        for (String wrongWord: misspelledWords) {
-            System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
-            System.out.print("   Enter correct spelling: ");
-            while (true) {
-                if (input.hasNextLine()) {
-                    String correctWord = input.nextLine();
-                    if (!correctWord.isEmpty()) {
-                        System.out.println("   test " + correctWord);
-                        break;
+        // Create a copy of the misspelledWords list to avoid concurrent modification
+        ArrayList<String> misspelledCopy = new ArrayList<>(misspelledWords);
+
+        // Read the original text file
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
+            StringBuilder correctedText = new StringBuilder();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                StringTokenizer tokenizer = new StringTokenizer(line);
+
+                while (tokenizer.hasMoreTokens()) {
+                    String word = tokenizer.nextToken();
+                    if (word.matches("[a-zA-Z]+") && misspelledCopy.contains(word)) {
+                        // Replace the misspelled word with the corrected version
+                        correctedText.append(correctWord(word)).append(" ");
                     } else {
-                        System.out.println("Please enter a valid spelling.");
+                        correctedText.append(word).append(" ");
                     }
+                }
+                correctedText.append("\n");
+            }
+
+            // Write the corrected text back to the original file
+            Files.write(Paths.get(textFile), correctedText.toString().getBytes());
+
+        } catch (Exception e) {
+            System.out.println("Error reading or writing " + textFile + ".");
+            e.printStackTrace();
+            Speller.unload();
+            programFlow();
+        }
+    }
+
+    private static String correctWord(String wrongWord) {
+        System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
+        System.out.print("   Enter correct spelling: ");
+        while (true) {
+            if (input.hasNextLine()) {
+                String correctWord = input.nextLine();
+                if (!correctWord.isEmpty()) {
+                    return correctWord;
+                } else {
+                    System.out.println("Please enter a valid spelling.");
                 }
             }
         }

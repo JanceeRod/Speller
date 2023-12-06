@@ -6,7 +6,6 @@ public class Definitions {
     public static final String TEST = "texts/test.txt";
 
 
-
     public static double timeLoad = 0.0;
     public static double timeCheck = 0.0;
     public static final double timeSize = 0.0;
