@@ -11,6 +11,10 @@ public class Main extends Definitions {
     public static ArrayList<String> misspelledWords = new ArrayList<>();
 
     public static void main(String[] args) {
+        programFlow();
+    }
+
+    public static void programFlow() {
         startProgram();
 
         process("LOAD DICTIONARY");
@@ -19,11 +23,13 @@ public class Main extends Definitions {
         process("UNLOAD DICTIONARY");
 
         performanceAnalysis();
+
+        promptWhatToDo();
     }
 
     public static void startProgram() {
         System.out.print(
-                "--- SPELL CHECKER ---\n\n" +
+                "\n--- SPELL CHECKER ---\n\n" +
                 "Please pick the text file you want to spell check\n" +
                 "   [1] US Constitution\n" +
                 "   [2] Lalaland Manuscript\n" +
@@ -143,6 +149,37 @@ public class Main extends Definitions {
                 "TIME IN size:         " + timeSize + "\n" +
                 "TIME IN unload:       " + timeUnload + "\n" +
                 "TIME IN TOTAL:        " + (timeLoad + timeCheck + timeSort + timeSize + timeUnload) + "\n\n");
+    }
+
+    public static void promptWhatToDo() {
+        System.out.println("What do you want to do?");
+        System.out.print(
+                "   [1] Spell check another file\n" +
+                "   [2] Correct misspelled words\n" +
+                "   [3] Use a different Hash Function\n\n" +
+                "   [4] Exit Program\n\n" +
+                "Enter your choice: "
+        );
+        while (true) {
+            if (input.hasNextInt()) {
+                int nextDo = input.nextInt();
+                if (nextDo >= 1 && nextDo < 5) {
+                    switch (nextDo) {
+                        case 1 -> programFlow();
+                        case 2 -> userCorrection();
+                        case 3 -> System.out.println("test");
+                        case 4 -> System.exit(0);
+                    }
+                    break;
+                } else System.out.println("Invalid. Expected input: A number within 1 to 4.");
+            } else {
+                System.out.println("Invalid. Expected input: A number within 1 to 4.");
+            }
+        }
+    }
+
+    public static void userCorrection() {
+        System.out.println("hey");
     }
 }
 
