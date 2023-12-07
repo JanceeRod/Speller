@@ -243,7 +243,7 @@ public class Main extends Definitions {
         }
     }
 
-    private static String correctWord(String wrongWord) {
+    public static String correctWord(String wrongWord) {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
 
         // Display suggestions

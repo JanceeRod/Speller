@@ -16,7 +16,7 @@ public class Levenshtein {
                     int distance = levenshteinDistance(misspelledWord, word);
 
                     // Add the word to suggestions if it is within an acceptable edit distance
-                    if (distance <= 3) {  // Adjust the threshold as needed
+                    if (distance <= 3) {
                         suggestions.add(word);
                     }
 
