@@ -6,11 +6,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Main extends Definitions {
-    public static Scanner input = new Scanner(System.in);
-    public static String textFile = "";
-    public static ArrayList<String> misspelledWords = new ArrayList<>();
-    private static Map<String, String> correctedWords = new HashMap<>();
-
     public static void main(String[] args) {
         programFlow();
     }
