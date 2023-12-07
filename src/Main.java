@@ -3,14 +3,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main extends Definitions {
     public static Scanner input = new Scanner(System.in);
     public static String textFile = "";
     public static ArrayList<String> misspelledWords = new ArrayList<>();
+    private static Map<String, String> correctedWords = new HashMap<>();
 
     public static void main(String[] args) {
         programFlow();
@@ -196,8 +195,17 @@ public class Main extends Definitions {
                 while (tokenizer.hasMoreTokens()) {
                     String word = tokenizer.nextToken();
                     if (word.matches("[a-zA-Z]+") && misspelledCopy.contains(word)) {
-                        // Replace the misspelled word with the corrected version
-                        correctedText.append(correctWord(word)).append(" ");
+                        // Check if the corrected version is already in the map
+                        String correctedVersion = correctedWords.get(word);
+                        if (correctedVersion == null) {
+                            // If not, prompt the user for correction
+                            correctedVersion = correctWord(word);
+                            // Store the corrected version in the map
+                            correctedWords.put(word, correctedVersion);
+                        }
+
+                        // Use the corrected version
+                        correctedText.append(correctedVersion).append(" ");
                     } else {
                         correctedText.append(word).append(" ");
                     }
