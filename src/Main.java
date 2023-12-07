@@ -213,6 +213,7 @@ public class Main extends Definitions {
                 correctedText.append("\n");
             }
 
+            System.out.println("\nEdited text file successfully!");
             // Write the corrected text back to the original file
             Files.write(Paths.get(textFile), correctedText.toString().getBytes());
 
@@ -226,16 +227,19 @@ public class Main extends Definitions {
 
     private static String correctWord(String wrongWord) {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
-        System.out.print("   Enter correct spelling: ");
+        System.out.print("Enter correct spelling: ");
         while (true) {
             if (input.hasNextLine()) {
                 String correctWord = input.nextLine().trim();
-                if (correctWord.matches("[a-zA-Z]+")) {
+                if (correctWord.matches("[a-zA-Z]+") && Speller.check(correctWord)) {
                     return correctWord;
+                } else if (!Speller.check(correctWord)) {
+                    System.out.println("Word is spelled wrong");
                 } else {
                     System.out.println("Please enter a valid spelling containing only letters.");
                 }
             }
+            System.out.print("Enter: ");
         }
     }
 }
