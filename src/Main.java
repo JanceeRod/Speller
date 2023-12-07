@@ -111,10 +111,16 @@ public class Main extends Definitions {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                StringTokenizer tokenizer = new StringTokenizer(line);
+                // Use a regular expression to split the line into words, considering punctuation
+                String[] wordsInLine = line.split("\\s+|(?=[.,;!?()\\[\\]])|(?<=[.,;!?()\\[\\]])");
 
-                while (tokenizer.hasMoreTokens()) {
-                    String word = tokenizer.nextToken();
+                for (String word : wordsInLine) {
+                    // Skip empty strings
+                    if (word.trim().isEmpty()) {
+                        continue;
+                    }
+
+                    // Check if the word contains only letters
                     if (word.matches("[a-zA-Z]+")) {
                         words++;
 
@@ -130,8 +136,7 @@ public class Main extends Definitions {
                     }
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error reading " + text + ".");
             e.printStackTrace();
             Speller.unload();
@@ -190,10 +195,15 @@ public class Main extends Definitions {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                StringTokenizer tokenizer = new StringTokenizer(line);
+                StringTokenizer tokenizer = new StringTokenizer(line, " \t\n\r\f,;.:!?()[]");
 
                 while (tokenizer.hasMoreTokens()) {
-                    String word = tokenizer.nextToken();
+                    String token = tokenizer.nextToken();
+                    // Separate the word and trailing punctuation
+                    String word = token.replaceAll("[^a-zA-Z]", "");
+                    String punctuation = token.substring(word.length());
+
+                    // Check if the word contains only letters
                     if (word.matches("[a-zA-Z]+") && misspelledCopy.contains(word)) {
                         // Check if the corrected version is already in the map
                         String correctedVersion = correctedWords.get(word);
@@ -204,10 +214,10 @@ public class Main extends Definitions {
                             correctedWords.put(word, correctedVersion);
                         }
 
-                        // Use the corrected version
-                        correctedText.append(correctedVersion).append(" ");
+                        // Use the corrected version with the original punctuation
+                        correctedText.append(correctedVersion).append(punctuation).append(" ");
                     } else {
-                        correctedText.append(word).append(" ");
+                        correctedText.append(token).append(" ");
                     }
                 }
                 correctedText.append("\n");
