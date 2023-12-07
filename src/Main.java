@@ -163,9 +163,7 @@ public class Main extends Definitions {
                    What do you want to do?
                       [1] Spell check another file
                       [2] Correct misspelled words
-                      [3] Use a different Hash Function
-
-                      [4] Exit Program
+                      [3] Exit Program
 
                    Enter your choice:\s"""
         );
@@ -173,12 +171,11 @@ public class Main extends Definitions {
             if (input.hasNextInt()) {
                 int nextDo = input.nextInt();
                 input.nextLine();
-                if (nextDo >= 1 && nextDo < 5) {
+                if (nextDo >= 1 && nextDo < 4) {
                     switch (nextDo) {
                         case 1 -> programFlow();
                         case 2 -> userCorrection();
-                        case 3 -> System.out.println("test");
-                        case 4 -> System.exit(0);
+                        case 3 -> System.exit(0);
                     }
                     break;
                 } else System.out.println("Invalid. Expected input: A number within 1 to 4.");
