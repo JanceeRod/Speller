@@ -252,13 +252,11 @@ public class Main extends Definitions {
 
                 if (correctWord.equals("")) return wrongWord;
 
-                if (correctWord.matches("[a-zA-Z]+") && Speller.check(correctWord)) {
-                    return correctWord;
-                } else if (!Speller.check(correctWord)) {
-                    System.out.println("Word is spelled wrong");
-                } else {
-                    System.out.println("Please enter a valid spelling containing only letters.");
-                }
+                if (correctWord.matches("[a-zA-Z]+") && Speller.check(correctWord)) return correctWord;
+
+                else if (!Speller.check(correctWord)) System.out.println("Word is spelled wrong");
+
+                else System.out.println("Please enter a valid spelling containing only letters.");
             }
             System.out.print("Enter: ");
         }
