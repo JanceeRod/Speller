@@ -30,14 +30,19 @@ public class Main extends Definitions {
 
     public static void startProgram() {
         System.out.print(
-                "\n--- SPELL CHECKER ---\n\n" +
-                "Please pick the text file you want to spell check\n" +
-                "   [1] US Constitution\n" +
-                "   [2] Lalaland Manuscript\n" +
-                "   [3] Shakespeare's work\n" +
-                "   [4] Test File\n\n" +
-                "   [5] Exit Program\n\n" +
-                "Enter your choice: ");
+                """
+                        
+                    --- SPELL CHECKER ---
+
+                    Please pick the text file you want to spell check
+                       [1] US Constitution
+                       [2] Lalaland Manuscript
+                       [3] Shakespeare's work
+                       [4] Test File
+
+                       [5] Exit Program
+
+                    Enter your choice:\s""");
         handleUserInput();
     }
 
@@ -158,13 +163,16 @@ public class Main extends Definitions {
     }
 
     public static void promptWhatToDo() {
-        System.out.println("What do you want to do?");
         System.out.print(
-                "   [1] Spell check another file\n" +
-                "   [2] Correct misspelled words\n" +
-                "   [3] Use a different Hash Function\n\n" +
-                "   [4] Exit Program\n\n" +
-                "Enter your choice: "
+                """
+                   What do you want to do?
+                      [1] Spell check another file
+                      [2] Correct misspelled words
+                      [3] Use a different Hash Function
+
+                      [4] Exit Program
+
+                   Enter your choice:\s"""
         );
         while (true) {
             if (input.hasNextInt()) {

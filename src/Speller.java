@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Speller {
 
-    public static final int N = 78;
+    public static final int N = 576;
     public static boolean check(String word) {
         int hashed = hash(word);
 
