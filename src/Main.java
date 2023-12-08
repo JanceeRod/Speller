@@ -223,9 +223,9 @@ public class Main extends Definitions {
                 correctedText.append("\n");
             }
 
-            System.out.println("\nEdited text file successfully!");
             // Write the corrected text back to the original file
             Files.write(Paths.get(textFile), correctedText.toString().getBytes());
+            System.out.println("\nEdited text file successfully!");
 
         } catch (Exception e) {
             System.out.println("Error reading or writing " + textFile + ".");

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Speller {
 
-    public static final int N = 780;
+    public static final int N = 350000;
     public static boolean check(String word) {
         int hashed = hash(word);
 
@@ -21,11 +21,7 @@ public class Speller {
     public static int hash(String word) {
         int index = 0;
 
-        for (int i = 0; i < 4; i++) {
-            if (i >= word.length()) {
-                break;
-            }
-
+        for (int i = 0; i < word.length(); i++) {
             index <<= 8;
             index += Character.toLowerCase(word.charAt(i));
         }
