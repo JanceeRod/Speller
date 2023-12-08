@@ -247,7 +247,7 @@ public class Main extends Definitions {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
 
         // Display suggestions
-        List<String> suggestions = getSuggestions(wrongWord, DICTIONARY, 10); // Adjust the number of suggestions as needed
+        List<String> suggestions = getSuggestions(wrongWord, DICTIONARY, 15);
         System.out.println("Did you mean:");
 
         for (String suggestion : suggestions) {
@@ -284,7 +284,7 @@ public class Main extends Definitions {
                     int distance = levenshteinDistance(misspelledWord, word);
 
                     // Add the word to suggestions if it is within an acceptable edit distance
-                    if (distance <= 3) {  // Adjust the threshold as needed
+                    if (distance <= 2) {  // Adjust the threshold as needed
                         suggestions.add(word);
                     }
 
