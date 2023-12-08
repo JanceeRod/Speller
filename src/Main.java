@@ -178,9 +178,9 @@ public class Main extends Definitions {
                         case 3 -> System.exit(0);
                     }
                     break;
-                } else System.out.println("Invalid. Expected input: A number within 1 to 4.");
+                } else System.out.println("Invalid. Expected input: A number within 1 to 3.");
             } else {
-                System.out.println("Invalid. Expected input: A number within 1 to 4.");
+                System.out.println("Invalid. Expected input: A number within 1 to 3.");
             }
         }
     }
@@ -239,7 +239,7 @@ public class Main extends Definitions {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
 
         // Display suggestions
-        List<String> suggestions = Levenshtein.getSuggestions(wrongWord, DICTIONARY, 10);
+        List<String> suggestions = Levenshtein.getSuggestions(wrongWord, DICTIONARY, 20);
         System.out.println("Did you mean:");
 
         for (String suggestion : suggestions) {
