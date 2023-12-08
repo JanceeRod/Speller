@@ -19,14 +19,14 @@ public class Speller {
     }
 
     public static int hash(String word) {
+        int primeMultiplier = 31; // A commonly used prime number for hashing
         int index = 0;
 
         for (int i = 0; i < word.length(); i++) {
-            index <<= 8;
-            index += Character.toLowerCase(word.charAt(i));
+            index = (index * primeMultiplier) + Character.toLowerCase(word.charAt(i));
         }
 
-        return index % N;
+        return Math.abs(index) % N;
     }
 
     public static int counter = 0;
