@@ -6,11 +6,6 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class Main extends Definitions {
-    public static Scanner input = new Scanner(System.in);
-    public static String textFile = "";
-    public static ArrayList<String> misspelledWords = new ArrayList<>();
-    private static Map<String, String> correctedWords = new HashMap<>();
-
     public static void main(String[] args) {
         programFlow();
     }
@@ -168,9 +163,7 @@ public class Main extends Definitions {
                    What do you want to do?
                       [1] Spell check another file
                       [2] Correct misspelled words
-                      [3] Use a different Hash Function
-
-                      [4] Exit Program
+                      [3] Exit Program
 
                    Enter your choice:\s"""
         );
@@ -178,12 +171,11 @@ public class Main extends Definitions {
             if (input.hasNextInt()) {
                 int nextDo = input.nextInt();
                 input.nextLine();
-                if (nextDo >= 1 && nextDo < 5) {
+                if (nextDo >= 1 && nextDo < 4) {
                     switch (nextDo) {
                         case 1 -> programFlow();
                         case 2 -> userCorrection();
-                        case 3 -> System.out.println("test");
-                        case 4 -> System.exit(0);
+                        case 3 -> System.exit(0);
                     }
                     break;
                 } else System.out.println("Invalid. Expected input: A number within 1 to 4.");
@@ -243,11 +235,11 @@ public class Main extends Definitions {
         }
     }
 
-    private static String correctWord(String wrongWord) {
+    public static String correctWord(String wrongWord) {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
 
         // Display suggestions
-        List<String> suggestions = getSuggestions(wrongWord, DICTIONARY, 15);
+        List<String> suggestions = Levenshtein.getSuggestions(wrongWord, DICTIONARY, 10);
         System.out.println("Did you mean:");
 
         for (String suggestion : suggestions) {
@@ -272,65 +264,6 @@ public class Main extends Definitions {
             }
             System.out.print("Enter: ");
         }
-    }
-
-    private static List<String> getSuggestions(String misspelledWord, String dictionaryFile, int maxSuggestions) {
-        List<String> suggestions = new ArrayList<>();
-
-        try (Scanner scanner = new Scanner(Paths.get(dictionaryFile))) {
-            while (scanner.hasNext()) {
-                String word = scanner.next().replaceAll("[^a-zA-Z]", "");
-                if (!word.isEmpty()) {
-                    int distance = levenshteinDistance(misspelledWord, word);
-
-                    // Add the word to suggestions if it is within an acceptable edit distance
-                    if (distance <= 2) {  // Adjust the threshold as needed
-                        suggestions.add(word);
-                    }
-
-                    // Sort the suggestions by edit distance (closer words first)
-                    suggestions.sort(Comparator.comparingInt(w -> levenshteinDistance(misspelledWord, w)));
-
-                    // Limit the list to maxSuggestions number of suggestions
-                    if (suggestions.size() >= maxSuggestions) {
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return suggestions;
-    }
-
-    private static int levenshteinDistance(String word1, String word2) {
-        int m = word1.length();
-        int n = word2.length();
-
-        int[][] dp = new int[m + 1][n + 1];
-
-        for (int i = 0; i <= m; i++) {
-            for (int j = 0; j <= n; j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
-                } else {
-                    dp[i][j] = min(
-                            dp[i - 1][j] + 1,
-                            dp[i][j - 1] + 1,
-                            dp[i - 1][j - 1] + (word1.charAt(i - 1) == word2.charAt(j - 1) ? 0 : 1)
-                    );
-                }
-            }
-        }
-
-        return dp[m][n];
-    }
-
-    private static int min(int a, int b, int c) {
-        return Math.min(Math.min(a, b), c);
     }
 }
 
