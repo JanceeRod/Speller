@@ -33,9 +33,10 @@ public class Main extends Definitions {
                        [1] US Constitution
                        [2] Lalaland Manuscript
                        [3] Shakespeare's work
-                       [4] Test File
+                       [4] Essay
+                       [5] Test File
 
-                       [5] Exit Program
+                       [6] Exit Program
 
                     Enter your choice:\s""");
         handleUserInput();
@@ -45,13 +46,14 @@ public class Main extends Definitions {
         while (true) {
             if (input.hasNextInt()) {
                 int choice = input.nextInt();
-                if (choice >= 1 && choice < 6) {
+                if (choice >= 1 && choice < 7) {
                     switch (choice) {
                         case 1 -> textFile = US_CONSTITUTION;
                         case 2 -> textFile = LALALAND;
                         case 3 -> textFile = SHAKESPEARE;
-                        case 4 -> textFile = TEST;
-                        case 5 -> System.exit(0);
+                        case 4 -> textFile = ESSAY;
+                        case 5 -> textFile = TEST;
+                        case 6 -> System.exit(0);
                     }
                     break;
                 } else {
@@ -111,16 +113,15 @@ public class Main extends Definitions {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                // Use a regular expression to split the line into words, considering punctuation
+                // separate punctuation
                 String[] wordsInLine = line.split("\\s+|(?=[.,;!?()\\[\\]])|(?<=[.,;!?()\\[\\]])");
 
                 for (String word : wordsInLine) {
-                    // Skip empty strings
+                    // skip empty strings
                     if (word.trim().isEmpty()) {
                         continue;
                     }
 
-                    // Check if the word contains only letters
                     if (word.matches("[a-zA-Z]+")) {
                         words++;
 
@@ -129,6 +130,7 @@ public class Main extends Definitions {
                         endTime = System.currentTimeMillis();
                         timeCheck += (endTime - startTime) / 1000.0;
 
+                        // track misspelled words
                         if (misspelled && !misspelledWords.contains(word)) {
                             misspelledWords.add(word);
                             misspellings++;
@@ -186,10 +188,9 @@ public class Main extends Definitions {
     }
 
     public static void userCorrection() {
-        // Create a copy of the misspelledWords list to avoid concurrent modification
         ArrayList<String> misspelledCopy = new ArrayList<>(misspelledWords);
 
-        // Read the original text file
+        // goes thru text file and checks every word
         try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
             StringBuilder correctedText = new StringBuilder();
 
@@ -199,22 +200,21 @@ public class Main extends Definitions {
 
                 while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
-                    // Separate the word and trailing punctuation
                     String word = token.replaceAll("[^a-zA-Z]", "");
                     String punctuation = token.substring(word.length());
 
                     // Check if the word contains only letters
                     if (word.matches("[a-zA-Z]+") && misspelledCopy.contains(word)) {
-                        // Check if the corrected version is already in the map
+                        // check if the corrected version is already in the map
                         String correctedVersion = correctedWords.get(word);
                         if (correctedVersion == null) {
-                            // If not, prompt the user for correction
+                            // if not, prompt the user for correction
                             correctedVersion = correctWord(word);
-                            // Store the corrected version in the map
+                            // store the corrected version in the map
                             correctedWords.put(word, correctedVersion);
                         }
 
-                        // Use the corrected version with the original punctuation
+                        // use the corrected version with the original punctuation
                         correctedText.append(correctedVersion).append(punctuation).append(" ");
                     } else {
                         correctedText.append(token).append(" ");
@@ -223,7 +223,7 @@ public class Main extends Definitions {
                 correctedText.append("\n");
             }
 
-            // Write the corrected text back to the original file
+            // write corrected words to text file
             Files.write(Paths.get(textFile), correctedText.toString().getBytes());
             System.out.println("\nEdited text file successfully!");
 
@@ -238,7 +238,7 @@ public class Main extends Definitions {
     public static String correctWord(String wrongWord) {
         System.out.println("\nWhat is the correct spelling of " + wrongWord + "?");
 
-        // Display suggestions
+        // display suggestions
         List<String> suggestions = Levenshtein.getSuggestions(wrongWord, DICTIONARY, 20);
         System.out.println("Did you mean:");
 
@@ -252,6 +252,7 @@ public class Main extends Definitions {
             if (input.hasNextLine()) {
                 String correctWord = input.nextLine().trim();
 
+                // user decided to skip
                 if (correctWord.equals("")) return wrongWord;
 
                 if (correctWord.matches("[a-zA-Z]+") && Speller.check(correctWord)) {
@@ -262,7 +263,7 @@ public class Main extends Definitions {
                     System.out.println("Please enter a valid spelling containing only letters.");
                 }
             }
-            System.out.print("Enter: ");
+            System.out.print("Enter correct spelling: ");
         }
     }
 }

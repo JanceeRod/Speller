@@ -8,6 +8,7 @@ public class Speller {
     public static boolean check(String word) {
         int hashed = hash(word);
 
+        // go thru that index and look for the word
         Node checker = table[hashed];
         while (checker != null) {
             if (checker.word.equalsIgnoreCase(word)) {
@@ -19,7 +20,7 @@ public class Speller {
     }
 
     public static int hash(String word) {
-        int primeMultiplier = 31; // A commonly used prime number for hashing
+        int primeMultiplier = 31;
         int index = 0;
 
         for (int i = 0; i < word.length(); i++) {
@@ -38,6 +39,7 @@ public class Speller {
                 Node newWord = new Node(word);
                 int index = hash(word);
 
+                // add word to table[index] and make it as the start of the linked list
                 newWord.next = table[index];
                 table[index] = newWord;
                 counter++;

@@ -20,10 +20,10 @@ public class Levenshtein {
                         suggestions.add(word);
                     }
 
-                    // Sort the suggestions by edit distance (closer words first)
+                    // sort the suggestions by edit distance (closer words first)
                     suggestions.sort(Comparator.comparingInt(w -> levenshteinDistance(misspelledWord, w)));
 
-                    // Limit the list to maxSuggestions number of suggestions
+                    // limit the list to maxSuggestions number of suggestions
                     if (suggestions.size() >= maxSuggestions) {
                         break;
                     }
